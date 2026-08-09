@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="icon" type="image/png" href="../../assets/images/logo.png" />
+<title>Minecraft Infdev</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<script type="text/javascript" src="classes.js"></script>
+<script type="text/javascript">
+if(document.location.href.startsWith("file:")) {
+alert("You cannot 'open' this file in your browser, the code doesn't work. Upload this folder to your HTTP(s) server and access it via the internet to launch the stable-download game. This is not a bug, please read the documentation");
+}else {
+window.addEventListener("load", function(){
+window.eaglercraftXOpts = {
+container: "game_frame", assetsURI: "assets.epk", serverWorkerURI: "worker_bootstrap.js", worldsFolder: "MAIN"};
+main();
+});}
+</script>
+<!-- Startup Screen -->
+<style>
+#startup-screen {
+  position: fixed;
+  inset: 0;
+  background: #000 url("../../assets/images/startup.png") center / cover no-repeat;
+  image-rendering: pixelated;
+  z-index: 2147483647;
+}
+</style>
+<script>
+(function(){
+  function removeStartupScreen(){
+    var root = document.getElementById('game_frame') || document.body;
+    var attempts = 0;
+    var start = Date.now();
+    function check(){
+      var scope = root || document.body;
+      var canvas = scope ? scope.querySelector('canvas') : document.querySelector('canvas');
+      if((Date.now() - start) > 30000 || attempts > 1800){
+        var screen = document.getElementById('startup-screen');
+        if(screen && screen.parentNode){
+          screen.parentNode.removeChild(screen);
+        }
+        return;
+      }
+      attempts++;
+      requestAnimationFrame(check);
+    }
+    check();
+  }
+  window.addEventListener('load', removeStartupScreen);
+})();
+</script><!-- Startup Screen Enforcer -->
+<script>
+(function(){
+  var start = Date.now();
+  var timeoutMs = 30000;
+  function ensure(){
+    if (Date.now() - start > timeoutMs) {
+      var existing = document.getElementById('startup-screen');
+      if (existing && existing.parentNode) existing.parentNode.removeChild(existing);
+      return;
+    }
+    var overlay = document.getElementById('startup-screen');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.id = 'startup-screen';
+      overlay.style.cssText = 'position:fixed;inset:0;background:#000 url("../../assets/images/startup.png") center / cover no-repeat;image-rendering:pixelated;z-index:2147483647;pointer-events:none;';
+      (document.body || document.documentElement).appendChild(overlay);
+    }
+    requestAnimationFrame(ensure);
+  }
+  ensure();
+})();
+</script></head>
+<body style="margin:0px;width:100vw;height:100vh;" id="game_frame">
+<div id="startup-screen"></div>
+</body>
+</html>
+
+
+
+
+
+
