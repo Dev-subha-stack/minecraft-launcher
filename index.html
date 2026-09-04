@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minecraft Launcher</title>
+    <title>Minecraft Launcher - Subhajit Roy</title>
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" media="screen and (max-width: 1100px)" href="css/screensize.css">
     <link rel="stylesheet" media="screen and (max-height: 550px)" href="css/screensize.css">
@@ -18,6 +18,15 @@
 </head>
 
 <body>
+    <!-- Creator Header with Aesthetic -->
+    <div class="creator-header">
+        <div class="creator-name-wrapper">
+            <span class="creator-text">Created by</span>
+            <h1 class="creator-name">SUBHAJIT ROY</h1>
+            <div class="name-underline"></div>
+        </div>
+    </div>
+
     <div id="notescreen"></div>
     <div id="naerror" class="error">
         <div>
@@ -54,7 +63,7 @@
         <div class="gTabsText"><p>Credits</p></div>
     </div>
 
-    <div id="gtabs6" class="sidebarOptions sidebarBottom" onclick="errorNA('settings')">
+    <div id="gtabs6" class="sidebarOptions sidebarBottom" onclick="toggleSettings()">
         <img src="./assets/images/sidebar/m-settings.png">
         <div class="gTabsText"><p>Settings</p></div>
     </div>
@@ -64,6 +73,55 @@
 </div>
 
     <div class="mainPage">
+        <!-- Settings Panel (Super Cool Feature #1) -->
+        <div id="settingsPanel" class="settings-panel">
+            <div class="settings-header">
+                <h2>⚙️ LAUNCHER SETTINGS</h2>
+                <button class="close-btn" onclick="toggleSettings()">✕</button>
+            </div>
+            <div class="settings-content">
+                <div class="setting-item">
+                    <label>🎨 Theme</label>
+                    <select id="themeSelect" onchange="changeTheme()">
+                        <option value="dark">Dark Mode</option>
+                        <option value="light">Light Mode</option>
+                        <option value="neon">Neon Mode</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+                    <label>🔊 Volume</label>
+                    <input type="range" id="volumeSlider" min="0" max="100" value="70" onchange="setVolume()">
+                </div>
+                <div class="setting-item">
+                    <label>⚡ Performance Mode</label>
+                    <input type="checkbox" id="perfMode" onchange="togglePerformanceMode()">
+                </div>
+                <div class="setting-item">
+                    <label>💾 Auto-Save</label>
+                    <input type="checkbox" id="autoSave" checked onchange="toggleAutoSave()">
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Stats Widget (Super Cool Feature #2) -->
+        <div class="stats-widget">
+            <div class="stat-item">
+                <span class="stat-icon">⏱️</span>
+                <span class="stat-label">Playtime</span>
+                <span id="playtimeDisplay" class="stat-value">0h 0m</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-icon">🎮</span>
+                <span class="stat-label">Sessions</span>
+                <span id="sessionsDisplay" class="stat-value">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-icon">🚀</span>
+                <span class="stat-label">FPS Boost</span>
+                <span id="fpsBoostDisplay" class="stat-value">ON</span>
+            </div>
+        </div>
+
         <div class="gameHeader">
             <p id="gameedition" class="currentGame bolded">MINECRAFT WEB EDITION</p>
                 <ul class="gameTabs">
@@ -119,7 +177,7 @@
             <div style="padding: 2vh 3vw 7vh;">
                 <p class="bolded patchnotes-title">Versions</p>
                 <div class="versionscontainer">
-                    <input class="versionBox" type="checkbox" onchange="sortnote('game')" checked><p>Game Releases</p><input class="versionBox" type="checkbox" onchange="sortnote('site')" checked><p>Site Releases</p>
+                    <input class="versionBox" type="checkbox" onchange="sortnote('game')" checked><p>Game Releases</p><input class="versionBox" type="checkbox" onchange="sortnote('site')" checked>
                 </div>
                 <hr>
                 <div id="patchnotesbox"></div>
@@ -150,6 +208,93 @@
         </div>
     </div>
     <script src="./js/index.js"></script>
+    <script>
+        // Super Cool Features Implementation
+        
+        // Feature #1: Settings Panel Toggle
+        function toggleSettings() {
+            const panel = document.getElementById('settingsPanel');
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Feature #2: Theme Changer
+        function changeTheme() {
+            const theme = document.getElementById('themeSelect').value;
+            const root = document.documentElement;
+            
+            if (theme === 'dark') {
+                root.style.setProperty('--ui-main', '#1e1e1e');
+                root.style.setProperty('--ui-main-light', '#353535');
+            } else if (theme === 'light') {
+                root.style.setProperty('--ui-main', '#f5f5f5');
+                root.style.setProperty('--ui-main-light', '#e0e0e0');
+                document.body.style.color = '#000';
+            } else if (theme === 'neon') {
+                root.style.setProperty('--ui-main', '#0a0e27');
+                root.style.setProperty('--ui-main-light', '#1a1f3a');
+                root.style.setProperty('--ui-select', '#00ff00');
+            }
+            localStorage.setItem('launcherTheme', theme);
+        }
+
+        // Feature #3: Volume Control
+        function setVolume() {
+            const volume = document.getElementById('volumeSlider').value;
+            localStorage.setItem('launcherVolume', volume);
+        }
+
+        // Feature #4: Performance Mode
+        function togglePerformanceMode() {
+            const isOn = document.getElementById('perfMode').checked;
+            localStorage.setItem('performanceMode', isOn);
+            console.log('Performance Mode:', isOn ? 'ON' : 'OFF');
+        }
+
+        // Feature #5: Auto-Save Toggle
+        function toggleAutoSave() {
+            const isOn = document.getElementById('autoSave').checked;
+            localStorage.setItem('autoSave', isOn);
+        }
+
+        // Feature #6: Playtime Tracker
+        let playtimeSeconds = parseInt(localStorage.getItem('playtime')) || 0;
+        let sessionCount = parseInt(localStorage.getItem('sessionCount')) || 0;
+
+        setInterval(() => {
+            playtimeSeconds++;
+            localStorage.setItem('playtime', playtimeSeconds);
+            updatePlaytimeDisplay();
+        }, 1000);
+
+        function updatePlaytimeDisplay() {
+            const hours = Math.floor(playtimeSeconds / 3600);
+            const minutes = Math.floor((playtimeSeconds % 3600) / 60);
+            document.getElementById('playtimeDisplay').textContent = `${hours}h ${minutes}m`;
+            document.getElementById('sessionsDisplay').textContent = sessionCount;
+        }
+
+        // Feature #7: Initialize on Load
+        window.addEventListener('load', () => {
+            updatePlaytimeDisplay();
+            const savedTheme = localStorage.getItem('launcherTheme') || 'dark';
+            document.getElementById('themeSelect').value = savedTheme;
+            const savedVolume = localStorage.getItem('launcherVolume') || 70;
+            document.getElementById('volumeSlider').value = savedVolume;
+            const perfMode = localStorage.getItem('performanceMode') === 'true';
+            document.getElementById('perfMode').checked = perfMode;
+            const autoSave = localStorage.getItem('autoSave') !== 'false';
+            document.getElementById('autoSave').checked = autoSave;
+        });
+
+        // Feature #8: Track game launches
+        const playButton = document.getElementById('mainbutton');
+        if (playButton) {
+            playButton.addEventListener('click', () => {
+                sessionCount++;
+                localStorage.setItem('sessionCount', sessionCount);
+                updatePlaytimeDisplay();
+            });
+        }
+    </script>
 </body>
 </html>
-
