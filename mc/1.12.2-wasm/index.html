@@ -99,6 +99,20 @@
   background: #000 url("../../assets/images/startup.png") center / cover no-repeat;
   image-rendering: pixelated;
   z-index: 2147483647;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding-bottom: 10%;
+}
+
+#startup-screen-text {
+  color: white;
+  font-size: 3vw;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  font-family: Arial, sans-serif;
+  letter-spacing: 2px;
 }
 </style>
 <script>
@@ -139,7 +153,12 @@
     if (!overlay) {
       overlay = document.createElement('div');
       overlay.id = 'startup-screen';
-      overlay.style.cssText = 'position:fixed;inset:0;background:#000 url("../../assets/images/startup.png") center / cover no-repeat;image-rendering:pixelated;z-index:2147483647;pointer-events:none;';
+      overlay.style.cssText = 'position:fixed;inset:0;background:#000 url("../../assets/images/startup.png") center / cover no-repeat;image-rendering:pixelated;z-index:2147483647;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:10%;pointer-events:none;';
+      var textElement = document.createElement('div');
+      textElement.id = 'startup-screen-text';
+      textElement.textContent = 'Subhajit Roy';
+      textElement.style.cssText = 'color:white;font-size:3vw;font-weight:bold;text-shadow:2px 2px 4px rgba(0,0,0,0.8);font-family:Arial,sans-serif;letter-spacing:2px;';
+      overlay.appendChild(textElement);
       (document.body || document.documentElement).appendChild(overlay);
     }
     requestAnimationFrame(ensure);
@@ -148,6 +167,5 @@
 })();
 </script></head>
 	<body style="margin:0px;width:100%;height:100%;overflow:hidden;background-color:black;" id="game_frame">
-<div id="startup-screen"></div></body>
+<div id="startup-screen"><div id="startup-screen-text">Subhajit Roy</div></div></body>
 </html>
-
